@@ -4,6 +4,20 @@ console.log("Electron - Processo principal");
 const { app, BrowserWindow, nativeTheme, Menu, shell, ipcMain, dialog } = require('electron/main');
 const path = require('node:path');
 const { conectar, desconectar } = require('./database.js');
+// Model Cliente
+const clienteModel = require("./src/models/Clientes.js");
+
+
+// Responder ao evento 'db-status'
+ipcMain.handle('db-status', async () => {
+    try {
+        // Simulação de verificação do status do banco de dados
+        return { status: 'connected' }; 
+    } catch (error) {
+        return { status: 'error', message: error.message };
+    }
+});
+
 
 let win;
 const createWindow = () => {
@@ -163,3 +177,13 @@ async function adicionarCliente(newClient, event) {
     console.error("Erro ao adicionar cliente:", error);
   }
 }
+
+ipcMain.handle("cliente:adicionar", async (_, cliente) => {
+  try {
+      const novoCliente = await clienteModel.create(cliente);
+      return { sucesso: true, cliente: novoCliente };
+  } catch (error) {
+      console.error("Erro ao adicionar cliente:", error);
+      return { sucesso: false, erro: error.message };
+  }
+});

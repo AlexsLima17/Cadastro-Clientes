@@ -19,3 +19,4 @@ contextBridge.exposeInMainWorld('api', {
     newClient: (client) => ipcRenderer.send('new-client', client),
 })
 
+
