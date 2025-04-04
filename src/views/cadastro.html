@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' ">
+    <title>Cadastro de Clientes</title>
+    <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/style.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <!-- Título do Cadastro -->
+        <div class="row mt-4 d-flex align-items-center">
+            <div class="col-md-4">
+                <input type="text" id="Buscar Clientes" class="form-control" placeholder="Buscar Clientes">
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary w-100">Buscar</button>
+            </div>
+        </div>
+
+        <!-- Formulário de Cadastro -->
+        <form id="cadastro" class="p-4 shadow rounded bg-white">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" id="nome" class="form-control"><br>
+                </div>
+                <div class="col-md-4">
+                    <label for="cpf" class="form-label">CPF</label>
+                    <input type="text" id="cpf" class="form-control" onblur="validarCPF()">
+                    <div id="cpfErro" class="text-danger mt-1" style="display: none;">CPF inválido</div>
+                </div>
+                
+                <div class="col-md-6">
+                    <label for="telefone" class="form-label">Telefone</label>
+                    <input type="text" id="telefone" class="form-control">
+                </div>
+            </div>
+
+            <h3 class="mt-4"></h3>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="cep" class="form-label">CEP</label>
+                    <input type="text" id="cep" class="form-control" onblur="buscarEndereco()">
+
+                </div>
+                <div class="col-md-6">
+                    <label for="complemento" class="form-label">Endereço</label>
+                    <input type="text" id="complemento" class="form-control" placeholder="Rua, Avenida">
+                </div>
+                <div class="col-md-2">
+                    <label for="numero" class="form-label">Número</label>
+                    <input type="text" id="numero" class="form-control" placeholder="Número">
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label for="estado" class="form-label">Estado:</label>
+                    <select id="estado" class="form-select">
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espirito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="cidade" class="form-label"></label>
+                    <input type="text" id="cidade" class="form-control" placeholder="Cidade">
+                </div>
+            </div>
+        </form>
+
+        <!-- Botões abaixo do formulário -->
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success" id="btnCreate">Adicionar</button>
+
+            <button type="submit" class="btn btn-danger" id="btnUpdate">Excluir</button>
+
+            <button type="button" class="btn btn-warning" id="btnDelete">Editar</button>
+
+            <button type="button" class="btn" id="btnReset" onclick="resetForm()"></button>
+        </div>
+    </div>
+
+    <footer>
+        <p id="dataAtual"></p>
+        <img src="../public/img/dboff.png" alt="icone banco de dados" id="iconeDB">
+    </footer>
+
+    <script src="renderer.js"></script>
+</body>
+
+</html>
