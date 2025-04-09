@@ -1,23 +1,35 @@
 // Buscar CEP
+// Buscar CEP
 function buscarCEP() {
-    //console.log("teste do evento blur")
-    //armazenar o cep digitado na variável
-    let cep = document.getElementById('inputCEPClient').value
-    //console.log(cep) //teste de recebimento do CEP
-    //"consumir" a API do ViaCEP
-    let urlAPI = `https://viacep.com.br/ws/${cep}/json/`
-    //acessando o web service par abter os dados
+    let cep = document.getElementById('inputCEPClient').value.replace(/\D/g, '');
+
+    // Verifica se o CEP tem 8 dígitos
+    if (cep.length !== 8) {
+        alert('CEP inválido. Digite um CEP com 8 números.');
+        return;
+    }
+
+    let urlAPI = `https://viacep.com.br/ws/${cep}/json/`;
+
     fetch(urlAPI)
         .then(response => response.json())
         .then(dados => {
-            //extração dos dados
-            document.getElementById('inputAddressClient').value = dados.logradouro
-            document.getElementById('inputNeighborhoodClient').value = dados.bairro
-            document.getElementById('inputCityClient').value = dados.localidade
-            document.getElementById('inputUFClient').value = dados.uf
+            if (dados.erro) {
+                alert("CEP não encontrado!");
+                return;
+            }
+
+            document.getElementById('inputAddressClient').value = dados.logradouro || '';
+            document.getElementById('inputNeighborhoodClient').value = dados.bairro || '';
+            document.getElementById('inputCityClient').value = dados.localidade || '';
+            document.getElementById('inputUFClient').value = dados.uf || '';
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            console.error("Erro ao buscar CEP:", error);
+            alert("Erro ao buscar o CEP. Tente novamente mais tarde.");
+        });
 }
+
 
 // capturar o foco na busca pelo nome do cliente
 // a constante foco obtem o elemento html (input) identificado como 'searchClient'
@@ -89,3 +101,4 @@ api.resetForm((args) => {
 })
 // == Fim Reset Form ==========================================
 // ============================================================
+
