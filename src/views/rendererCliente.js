@@ -103,14 +103,14 @@ function searchC() {
             nameClient.value = c.nomeCliente
             cpfClient.value = c.cpfCliente
             emailClient.value = c.emailCliente
-            phoneClient.value = c.phoneCliente
-            cepClient.value = c.phoneCliente
-            addressClient.value = c.addressClient
-            numberClient.value = c.numberClient.value
-            complementClient.value = c.complementClient.value
-            neighborhoodClient.value = c.neighborhoodClient.value
-            cityClient.value = c.cityClient.value
-            ufClient.value = c.ufClient.value
+            phoneClient.value = c.foneCliente
+            cepClient.value = c.cepCliente
+            addressClient.value = c.longradouroCliente
+            numberClient.value = c.numeroCliente
+            complementClient.value = c.complementoCliente
+            neighborhoodClient.value = c.bairroCliente
+            cityClient.value = c.cidadeCliente
+            ufClient.value = c.ufCliente
 
         })
     })
