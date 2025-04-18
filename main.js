@@ -345,24 +345,59 @@ async function relatorioClientes() {
 // == Fim - relatório de clientes =============================
 // ============================================================
 
+
 // ============================================================
-// == CRUD READ ======================================
+// == Crud Read ===============================================
+
+// validação da busca
+ipcMain.on('validate-search', () => {
+    dialog.showMessageBox({
+        type: 'warning',
+        title: 'Atenção',
+        message: 'Preencha o campo de busca',
+        buttons: ['OK']
+    })
+})
 
 ipcMain.on('search-name', async (event, cliName) => {
-    // teste de recebimento do nome do Cliente (passo 2)
+    // teste de recebimento do nome do cliente (passo2)
     console.log(cliName)
     try {
-        //RegExp (expressaõ regualr 'i' -> insensitive (ignorar letras maiúsculas e minúsculas))
+        // Passos 3 e 4 (busca dos dados do cliente pelo nome)
+        // RegExp (expressão regular 'i' -> insensitive (ignorar letra smaiúsculas ou minúsculas))
         const client = await clientModel.find({
             nomeCliente: new RegExp(cliName, 'i')
         })
         // teste da busca do cliente pelo nome (passos 3 e 4)
         console.log(client)
-        //enviar ao renderizador (rendererCLiente) os dados do cliente (passo 5) OBS: não esquecer de converter para string
-        event.reply('render-client', JSON.stringify(client))
+        // melhoria da experiência do usuário (se não existir um cliente cadastrado enviar uma mensagem ao usuário questionando se ele deseja cadastrar este novo cliente)
+        // se o vetor estiver vazio (lenght retorna o tamanho do vetor)
+        if (client.length === 0) {
+            // questionar o usuário ...
+            dialog.showMessageBox({
+                type: 'warning',
+                title: 'Aviso',
+                message: 'Cliente não cadastrado.\nDeseja cadastrar este cliente?',
+                defaultId: 0,
+                buttons: ['Sim', 'Não'] //[0, 1] defaultId: 0 = Sim
+            }).then((result) => {
+                // se o botão sim for pressionado
+                if (result.response === 0) {
+                    // enviar ao rendererCliente um pedido para recortar e copiar o nome do cliente do campo de busca para o campo nome (evitar que o usuário digite o nome novamente)
+                    event.reply('set-name')
+                } else {
+                    // enviar ao rendererCliente um pedido para limpar os campos (reutilzar a api do preload 'reset-form')
+                event.reply('reset-form')
+                }                
+            })
+        } else {
+            // enviar ao renderizador (rendererCliente) os dados do cliente (passo 5) OBS: não esquecer de converter para string "JSON.stringify"
+            event.reply('render-client', JSON.stringify(client))
+        }
     } catch (error) {
         console.log(error)
     }
 })
-// == Fim CRUD READ ==================================
+
+// == Fim - Crud Read =========================================
 // ============================================================

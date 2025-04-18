@@ -82,54 +82,71 @@ frmClient.addEventListener('submit', async (event) => {
 
 
 // ============================================================
-// == Relatório Clientes ======================================
+// == CRUD Read ===============================================
 
-function searchC() {
+// setar o nome do cliente para fazer um novo cadastro se a busca retornar que o cliente não está cadastrado.
+api.setName((args) => {
+    console.log("teste do IPC 'set-name'")
+    // "recortar" o nome da busca e setar no campo nome do form
+    let busca = document.getElementById('searchClient').value
+    // limpar o campo de busca (foco foi capturado de forma global)
+    foco.value=""
+    // foco no campo nome
+    nameClient.focus()    
+    // copiar o nome do cliente para o campo nome
+    nameClient.value = busca
+})
+
+function searchName() {
     //console.log("teste do botão buscar")
-    // capturar 
+    //capturar o nome a ser pesquisado (passo 1)
     let cliName = document.getElementById('searchClient').value
-    console.log(cliName) // teste de botao (passo 1)
-    //enviar o nome ao main passo 2
-    api.searchName(cliName)
-    //receber os dados do cliente (passo 5)
-    api.renderClient((event, client) => {
-        // teste de recebimento do dados do cliente
-        console.log(client)
-        // passo 6 renderização  dos dados do cliente (preencher os inputs do form) - não esqu cer de converter os dados de string para JSON 
-        const clientData = JSON.parse(client)
-        arrayClient = clientData
-        // uso do forEach para percorrer o vetor e extrair os dados 
-        arrayClient.forEach((c) => {
-            nameClient.value = c.nomeCliente
-            cpfClient.value = c.cpfCliente
-            emailClient.value = c.emailCliente
-            phoneClient.value = c.foneCliente
-            cepClient.value = c.cepCliente
-            addressClient.value = c.longradouroCliente
-            numberClient.value = c.numeroCliente
-            complementClient.value = c.complementoCliente
-            neighborhoodClient.value = c.bairroCliente
-            cityClient.value = c.cidadeCliente
-            ufClient.value = c.ufCliente
-
+    console.log(cliName) // teste do passo 1
+    // validação de campo obrigatório
+    // se o campo de busca não foi preenchido
+    if (cliName === "") {
+        // enviar ao main um pedido para alertar o usuário
+        // precisa usar o preload.js
+        api.validateSearch()
+    } else {
+        //enviar o nome do cliente ao main (passo 2)
+        api.searchName(cliName)
+        //receber os dados do cliente (passo 5)
+        api.renderClient((event, client) => {
+            //teste de recebimento dos dados do cliente
+            console.log(client)
+            //passo 6 renderização dos dados do cliente (preencher os inputs do form) - Não esquecer de converte os dados de string para JSON
+            const clientData = JSON.parse(client)
+            arrayClient = clientData
+            // uso do forEach para percorrer o vetor e extrair os dados
+            arrayClient.forEach((c) => {
+                nameClient.value = c.nomeCliente
+                cpfClient.value = c.cpfCliente
+                emailClient.value = c.emailCliente
+                phoneClient.value = c.foneCliente
+                cepClient.value = c.cepCliente
+                addressClient.value = c.logradouroCliente
+                numberClient.value = c.numeroCliente
+                complementClient.value = c.complementoCliente
+                neighborhoodClient.value = c.bairroCliente
+                cityClient.value = c.cidadeCliente
+                ufClient.value = c.ufCliente
+            })
         })
-    })
+    }
 }
 
-// == Fim Relatório Clientes ==================================
+// == Fim - CRUD Read =========================================
 // ============================================================
-
-
-
 
 // ============================================================
 // == Reset Form ==============================================
 function resetForm() {
-    location.reload()
+    location.reload();
 }
 
 api.resetForm((args) => {
-    resetForm()
-})
+    resetForm();
+});
 // == Fim Reset Form ==========================================
 // ============================================================
