@@ -11,14 +11,14 @@
     "type": "git",
     "url": "git+https://github.com/AlexsLima17/cadastro-clientes.git"
   },
-  "author": "Alex Lima",
+  "author": "Professor José de Assis",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/AlexsLima17/cadastro-clientes#issues"
   },
   "homepage": "https://github.com/AlexsLima17/cadastro-clientes#readme",
   "devDependencies": {
-    "electron": "^34.5.1"
+    "electron": "^34.2.0"
   },
   "dependencies": {
     "jspdf": "^3.0.1",

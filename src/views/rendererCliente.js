@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 //captura dos dados dos inputs do formulário (Passo 1: Fluxo)
-let frmClient = document.getElementById('frmClient')
+let frmClient = document.getElementById('formClient')
 let nameClient = document.getElementById('inputNameClient')
 let cpfClient = document.getElementById('inputCPFClient')
 let emailClient = document.getElementById('inputEmailClient')
@@ -48,6 +48,27 @@ let complementClient = document.getElementById('inputComplementClient')
 let neighborhoodClient = document.getElementById('inputNeighborhoodClient')
 let cityClient = document.getElementById('inputCityClient')
 let ufClient = document.getElementById('inputUFClient')
+
+// ============================================================
+// == Manipulação do Enter ====================================
+
+function teclaEnter(event) {
+    if (event.key === "Enter") {
+        event.preventDefault() // ignorar o comportamento padrão 
+        //executar o método de busca do cliente
+        searchName()
+    }
+}
+//"Escuta " do teclado ('keydown' = pressionar tecla)
+dmrClient.addEventListener('keydown', teclaEnter)
+
+// função para restaurar o padrão (tecla Enter)
+function restaurarEnter() {
+    frmClient.removeEventListener('keydown', teclaEnter)
+}
+
+// ============================================================
+// == Fim - Manipulação do Enter ==============================
 
 // ============================================================
 // == CRUD Create/Update ======================================
@@ -95,6 +116,8 @@ api.setName((args) => {
     nameClient.focus()    
     // copiar o nome do cliente para o campo nome
     nameClient.value = busca
+    // restaurar tecla Enter
+    restaurarEnter()
 })
 
 function searchName() {
@@ -131,22 +154,27 @@ function searchName() {
                 neighborhoodClient.value = c.bairroCliente
                 cityClient.value = c.cidadeCliente
                 ufClient.value = c.ufCliente
+                // restaurar a tecla Enter
+                restaurarEnter()
             })
         })
     }
 }
 
+
 // == Fim - CRUD Read =========================================
 // ============================================================
+
 
 // ============================================================
 // == Reset Form ==============================================
 function resetForm() {
-    location.reload();
+    location.reload()
 }
 
 api.resetForm((args) => {
-    resetForm();
-});
+    resetForm()
+})
 // == Fim Reset Form ==========================================
 // ============================================================
+
