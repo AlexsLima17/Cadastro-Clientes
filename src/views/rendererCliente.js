@@ -54,21 +54,23 @@ let ufClient = document.getElementById('inputUFClient')
 
 function teclaEnter(event) {
     if (event.key === "Enter") {
-        event.preventDefault() // ignorar o comportamento padrão 
-        //executar o método de busca do cliente
+        event.preventDefault() // ignorar o comportamento padrão
+        // executar o método de busca do cliente
         searchName()
     }
 }
-//"Escuta " do teclado ('keydown' = pressionar tecla)
-dmrClient.addEventListener('keydown', teclaEnter)
+
+// "Escuta" do teclado ('keydown' = pressionar tecla)
+// frmClient.addEventListener('keydown', teclaEnter)
 
 // função para restaurar o padrão (tecla Enter)
 function restaurarEnter() {
     frmClient.removeEventListener('keydown', teclaEnter)
 }
 
-// ============================================================
 // == Fim - Manipulação do Enter ==============================
+// ============================================================
+
 
 // ============================================================
 // == CRUD Create/Update ======================================
@@ -161,7 +163,6 @@ function searchName() {
     }
 }
 
-
 // == Fim - CRUD Read =========================================
 // ============================================================
 
@@ -177,4 +178,3 @@ api.resetForm((args) => {
 })
 // == Fim Reset Form ==========================================
 // ============================================================
-

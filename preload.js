@@ -10,7 +10,7 @@ const { contextBridge, ipcRenderer } = require('electron')
 ipcRenderer.send('db-connect')
 
 // expor (autorizar a comunicação entre processos)
-contextBridge.exposeInMainWorld('api', { 
+contextBridge.exposeInMainWorld('api', {
     clientWindow: () => ipcRenderer.send('client-window'),   
     dbStatus: (message) => ipcRenderer.on('db-status', message),
     newClient: (client) => ipcRenderer.send('new-client', client),
