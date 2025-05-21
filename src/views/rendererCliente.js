@@ -154,28 +154,61 @@ api.setName((args) => {
     restaurarEnter()
 })
 
+api.setName((args) => {
+    console.log("teste do IPC 'set-name'")
+    // "recortar" o nome da busca e setar no campo nome do form
+    let busca = document.getElementById('searchClient').value
+    // limpar o campo de busca (foco foi capturado de forma global)
+    foco.value = ""
+    // foco no campo nome
+    cpfClient.focus()
+    // copiar o nome do cliente para o campo nome
+    cpfClient.value = busca
+    // restaurar tecla Enter
+    restaurarEnter()
+})
+
 function searchName() {
-    //console.log("teste do botão buscar")
-    //capturar o nome a ser pesquisado (passo 1)
-    let cliName = document.getElementById('searchClient').value
-    console.log(cliName) // teste do passo 1
-    // validação de campo obrigatório
-    // se o campo de busca não foi preenchido
+    let cliName = document.getElementById('searchClient').value.trim()
     if (cliName === "") {
-        // enviar ao main um pedido para alertar o usuário
-        // precisa usar o preload.js
         api.validateSearch()
     } else {
-        //enviar o nome do cliente ao main (passo 2)
         api.searchName(cliName)
-        //receber os dados do cliente (passo 5)
+
         api.renderClient((event, client) => {
-            //teste de recebimento dos dados do cliente
             console.log(client)
-            //passo 6 renderização dos dados do cliente (preencher os inputs do form) - Não esquecer de converte os dados de string para JSON
+
             const clientData = JSON.parse(client)
             arrayClient = clientData
-            // uso do forEach para percorrer o vetor e extrair os dados
+
+            if (arrayClient.length === 0) {
+                // Se nenhum cliente foi encontrado
+                const apenasNumeros = cliName.replace(/\D/g, '')
+
+                if (apenasNumeros.length === 11) {
+                    // CPF aparentemente válido
+                    cpfClient.value = apenasNumeros
+                    foco.value = ""
+                    cpfClient.focus()
+                    restaurarEnter()
+                    console.log("CPF não encontrado, colado no campo CPF.")
+                } else {
+                    // Considera como nome e cola no campo nome
+                    nameClient.value = cliName
+                    foco.value = ""
+                    nameClient.focus()
+                    restaurarEnter()
+                    console.log("Nome não encontrado, colado no campo nome.")
+                }
+
+                // Botões
+                btnCreate.disabled = false
+                btnUpdate.disabled = true
+                btnDelete.disabled = true
+                return
+            }
+
+            // Se encontrou cliente(s), renderiza normalmente
             arrayClient.forEach((c) => {
                 idClient.value = c._id
                 nameClient.value = c.nomeCliente
@@ -189,17 +222,16 @@ function searchName() {
                 neighborhoodClient.value = c.bairroCliente
                 cityClient.value = c.cidadeCliente
                 ufClient.value = c.ufCliente
-                // restaurar a tecla Enter
-                restaurarEnter()
-                // desativar o botão adicionar
+
                 btnCreate.disabled = true
-                // ativar os botões editar e excluir
                 btnUpdate.disabled = false
                 btnDelete.disabled = false
+                restaurarEnter()
             })
         })
     }
 }
+
 
 // == Fim - CRUD Read =========================================
 // ============================================================

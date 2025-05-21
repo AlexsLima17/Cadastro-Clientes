@@ -115,7 +115,7 @@ ipcMain.on('db-connect', async (event) => {
         // enviar uma mensagem para o renderizador trocar o ícone, criar um delay de 0.5s para sincronizar a nuvem
         setTimeout(() => {
             event.reply('db-status', "conectado")
-        }, 500) //500ms        
+        }, 500) //5s        
     }
 })
 
@@ -366,8 +366,12 @@ ipcMain.on('search-name', async (event, cliName) => {
         // Passos 3 e 4 (busca dos dados do cliente pelo nome)
         // RegExp (expressão regular 'i' -> insensitive (ignorar letra smaiúsculas ou minúsculas))
         const client = await clientModel.find({
-            nomeCliente: new RegExp(cliName, 'i')
+            $or: [
+                { nomeCliente: new RegExp(cliName, 'i') },
+                { cpfCliente: new RegExp(cliName, 'i') }
+            ]
         })
+        
         // teste da busca do cliente pelo nome (passos 3 e 4)
         console.log(client)
         // melhoria da experiência do usuário (se não existir um cliente cadastrado enviar uma mensagem ao usuário questionando se ele deseja cadastrar este novo cliente)
