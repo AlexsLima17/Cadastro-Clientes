@@ -40,3 +40,33 @@ footer p {
 #inputIdClient {
     display: none;
 }
+
+/* Estilo para a mensagem de erro do CPF */
+#mensagem-cpf {
+    color: red; /* Cor da mensagem de erro */
+    font-size: 0.9em;
+    margin-top: 5px;
+    font-weight: bold;
+}
+ 
+/* Estilo do campo CPF quando erro ocorre */
+#inputCPFClient.error {
+    border-color: red; /* Bordo vermelho para o campo de CPF quando erro ocorre */
+    background-color: #f8d7da; /* Cor de fundo suave para indicar erro */
+}
+ 
+/* Estilo do botão de adicionar quando CPF está incorreto */
+#btnCreate:disabled {
+    background-color: #ccc; /* Cor do botão desativado */
+    cursor: not-allowed;
+}
+ 
+/* Exemplo para outros tipos de mensagens de erro, caso necessário */
+.error-message {
+    color: #f44336; /* Cor vermelha */
+    background-color: #f8d7da; /* Fundo suave */
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #f44336;
+}
